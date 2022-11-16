@@ -1,11 +1,13 @@
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
+const cors = require("cors")
 const UserModel = require("./models/Users")
 require("dotenv").config()
 const uri = process.env.ATLAS_URI
 
 app.use(express.json())
+app.use(cors())
 
 mongoose.connect(uri)
 const connection = mongoose.connection
