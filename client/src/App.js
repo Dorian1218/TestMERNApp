@@ -4,7 +4,7 @@ import Axios from "axios"
 
 function App() {
   
-  const [listOfUsers, setListOfUsers] = useState([{id: 1, name: "dorian", age: 14, username: "Dextract"}])
+  const [listOfUsers, setListOfUsers] = useState([])
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getUsers").then((response) => {
