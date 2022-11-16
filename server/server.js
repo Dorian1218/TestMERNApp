@@ -8,6 +8,10 @@ const uri = process.env.ATLAS_URI
 app.use(express.json())
 
 mongoose.connect(uri)
+const connection = mongoose.connection
+connection.once('open', () => {
+    console.log("MongoDB Database has succesfully connected")
+})
 
 app.get("/getUsers", (req, res) => {
     UserModel.find({}, (err, result) => {
