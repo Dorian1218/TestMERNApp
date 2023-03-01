@@ -1,14 +1,18 @@
 import './App.css';
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import Axios from "axios"
-import {AiFillPlusCircle} from "react-icons/ai"
+import { AiFillPlusCircle } from "react-icons/ai"
+import Modal from './Modal';
 
 function App() {
-  
+
   const [listOfUsers, setListOfUsers] = useState([])
   const [name, setName] = useState("")
-  const [age, setAge] = useState(0)
-  const [username, setUsername] = useState("")
+  const [age, setAge] = useState("")
+  const [showModal, setShowModal] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+  const [errorMsg, setErrorMsg] = useState("")
+  var date = new Date().toLocaleString()
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getUsers").then((response) => {
@@ -17,34 +21,51 @@ function App() {
   }, [])
 
   const createUser = () => {
-    Axios.post("http://localhost:3001/createUser", {name, age, username}).then((response) => {
-      setListOfUsers([...listOfUsers, {name, age, username}])
-    })
-    Axios.get("http://localhost:3001/getUsers").then((response) => {
-      setListOfUsers(response.data)
-    })
+    if (name === "" && age === "") {
+      setShowAlert(true)
+      setTimeout(() => {
+        setErrorMsg("Inputs are empty")
+      }, 10)
+      return () => setShowAlert(false)
+    }
+
+    else {
+      console.log(date)
+      Axios.post("http://localhost:3001/createUser", { name, age, date }).then((response) => {
+        setListOfUsers([...listOfUsers, { name, age, date }])
+      })
+      Axios.get("http://localhost:3001/getUsers").then((response) => {
+        setListOfUsers(response.data)
+      })
+      setName("")
+      setAge("")
+      setShowModal(false)
+    }
+  }
+
+  const buttonClick = () => {
+    setShowModal(true)
   }
 
   return (
     <div className="App">
-      <AiFillPlusCircle size={24}/>
+      <button className='add' onClick={buttonClick}><AiFillPlusCircle size={24} /></button>
       <h1>Welcome to Notes app</h1>
+      <Modal show={showModal} onClose={() => setShowModal(false)} name={name} age={age} setName={(e) => setName(e.target.value)} setAge={(e) => setAge(e.target.value)} createCard={createUser} error={errorMsg} showAlert={showAlert} removeMsg={() => setShowAlert(false)} />
       <div className='notes'>
-      {listOfUsers.map((user, users) => {
-        return (
-          <div className="users" key={users}>
-            <li>{user.name}</li>
-            <li>{user.age}</li>
-            <li>{user.username}</li>
-          </div>
-        )
-      })}
-      </div>
-      <div>
-        <input className="input" type="text" placeholder='Title' onChange={(e) => setName(e.target.value)}/>
-        <input className="input" type="text" placeholder='Note' onChange={(e) => setAge(e.target.value)}/>
-        <input className="input" type="text" placeholder='Date' onChange={(e) => setUsername(e.target.value)}/>
-        <button onClick={createUser}>Create User</button>
+        {listOfUsers.map((user, users) => {
+          return (
+            <div className="users" key={users}>
+              <div className='note-info'>
+                <h1>{user.name}</h1>
+                <li>{user.age}</li>
+              </div>
+              <div>
+                <li>{user.date}</li>
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   );

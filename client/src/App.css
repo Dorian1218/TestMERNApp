@@ -33,26 +33,96 @@
 li {
   list-style: none;
   list-style-position:inside;
-  white-space: nowrap;
-  overflow: scroll;
+  white-space: wrap;
 }
 
 div.users {
   background-color: #FFFF99;
   padding: 20px;
   margin: 20px;
-  height: 120px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 div.notes {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-columns: repeat(auto-fill, 400px);
 }
 
 div.header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.add {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  width: 500px;
+  background-color: #fff;
+}
+
+.modal-header, .modal-footer {
+  padding: 10px;
+}
+
+.modal-title {
+  margin: 0;
+}
+
+.modal-body {
+  padding: 10px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-button {
+  background-color: #0275d8;
+  border: none;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.input {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid black;
+  font-size: 1em;
+  outline: none;
+  border-radius: 5px;
+}
+
+.close-button-div {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.close-button {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
 }
