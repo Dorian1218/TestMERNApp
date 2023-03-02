@@ -23,12 +23,8 @@ function App() {
   const createUser = () => {
     if (name === "" && age === "") {
       setShowAlert(true)
-      setTimeout(() => {
-        setErrorMsg("Inputs are empty")
-      }, 10)
-      return () => setShowAlert(false)
+      setErrorMsg("Inputs are empty")
     }
-
     else {
       console.log(date)
       Axios.post("http://localhost:3001/createUser", { name, age, date }).then((response) => {
@@ -40,6 +36,7 @@ function App() {
       setName("")
       setAge("")
       setShowModal(false)
+      setShowAlert(false)
     }
   }
 
@@ -47,11 +44,16 @@ function App() {
     setShowModal(true)
   }
 
+  const closeModal = () => {
+    setShowModal(false)
+    setShowAlert(false)
+  }
+
   return (
     <div className="App">
       <button className='add' onClick={buttonClick}><AiFillPlusCircle size={24} /></button>
       <h1>Welcome to Notes app</h1>
-      <Modal show={showModal} onClose={() => setShowModal(false)} name={name} age={age} setName={(e) => setName(e.target.value)} setAge={(e) => setAge(e.target.value)} createCard={createUser} error={errorMsg} showAlert={showAlert} removeMsg={() => setShowAlert(false)} />
+      <Modal show={showModal} onClose={closeModal} name={name} age={age} setName={(e) => setName(e.target.value)} setAge={(e) => setAge(e.target.value)} createCard={createUser} error={errorMsg} showAlert={showAlert} removeMsg={() => setShowAlert(false)} />
       <div className='notes'>
         {listOfUsers.map((user, users) => {
           return (

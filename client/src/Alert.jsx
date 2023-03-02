@@ -6,7 +6,7 @@ const Alert = props => {
     }
 
     return (
-        <p>{props.message}</p>
+        <p className='alert-msg'>{props.message}</p>
     )
 }
 

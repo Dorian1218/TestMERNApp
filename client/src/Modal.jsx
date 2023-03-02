@@ -24,7 +24,6 @@ const Modal = props => {
                     </div>
                     <div className='modal-footer'>
                         <button className="modal-button" onClick={props.createCard}>Create Card</button>
-                        <button onClick={props.removeMsg}>Remove alert</button>
                     </div>
                 </div>
             </div>

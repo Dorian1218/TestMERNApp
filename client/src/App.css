@@ -126,3 +126,7 @@ div.header {
   background-color: transparent;
   border: none;
 }
+
+.alert-msg {
+  color: #d9534f;
+}
