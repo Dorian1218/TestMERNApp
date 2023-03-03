@@ -2,6 +2,7 @@ import './App.css';
 import { useState, useEffect } from "react"
 import Axios from "axios"
 import { AiFillPlusCircle } from "react-icons/ai"
+import { BsFillTrashFill } from "react-icons/bs"
 import Modal from './Modal';
 
 function App() {
@@ -13,6 +14,8 @@ function App() {
   const [showAlert, setShowAlert] = useState(false)
   const [errorMsg, setErrorMsg] = useState("")
   var date = new Date().toLocaleString()
+
+  const notes = document.getElementsByClassName("users")
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getUsers").then((response) => {
@@ -29,7 +32,6 @@ function App() {
       }, 2000)
     }
     else {
-      console.log(date)
       Axios.post("http://localhost:3001/createUser", { name, age, date }).then((response) => {
         setListOfUsers([...listOfUsers, { name, age, date }])
       })
@@ -58,6 +60,7 @@ function App() {
       <h1>Welcome to Notes app</h1>
       <Modal show={showModal} onClose={closeModal} name={name} age={age} setName={(e) => setName(e.target.value)} setAge={(e) => setAge(e.target.value)} createCard={createUser} error={errorMsg} showAlert={showAlert} removeMsg={() => setShowAlert(false)} />
       <div className='notes'>
+        {/* {notes.length === 0 && <p>Press the Add Button to add a note</p>} */}
         {listOfUsers.map((user, users) => {
           return (
             <div className="users" key={users}>
@@ -65,8 +68,9 @@ function App() {
                 <h1>{user.name}</h1>
                 <li>{user.age}</li>
               </div>
-              <div>
+              <div className='notes-footer'>
                 <li>{user.date}</li>
+                <BsFillTrashFill size={24}/>
               </div>
             </div>
           )
