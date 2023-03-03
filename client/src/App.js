@@ -24,6 +24,9 @@ function App() {
     if (name === "" && age === "") {
       setShowAlert(true)
       setErrorMsg("Inputs are empty")
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 2000)
     }
     else {
       console.log(date)
