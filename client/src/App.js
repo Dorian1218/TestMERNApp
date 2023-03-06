@@ -90,24 +90,22 @@ function App() {
       />
       <div className="notes">
         {listOfUsers.map((note, notes) => {
-          note.id = note._id;
           return (
             <div className="users" key={notes}>
               <div className="note-info">
                 <h1>{note.title}</h1>
                 <li>{note.notesBody}</li>
-                <li>{note.id}</li>
               </div>
               <div className="notes-footer">
                 <li>{note.date}</li>
                 <button
                   onClick={() => {
                     Axios.delete(
-                      `http://localhost:3001/deleteNote/${note.id}`
+                      `http://localhost:3001/deleteNote/${note._id}`
                     ).then(() => {
                       setListOfUsers(
                         listOfUsers.filter((val) => {
-                          return val.id !== note.id;
+                          return val._id !== note._id;
                         })
                       );
                       Axios.get("http://localhost:3001/getNotes").then(
