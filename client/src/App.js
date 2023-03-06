@@ -15,7 +15,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [showDeleteModal, setDeleteModal] = useState(false)
+  const [showDeleteModal, setDeleteModal] = useState(false);
   var date = new Date().toLocaleString();
   const id = uuid();
 
@@ -83,6 +83,11 @@ function App() {
       />
       <div className="notes">
         {listOfUsers.map((note, notes) => {
+          if (note._id === undefined) {
+            Axios.get("http://localhost:3001/getNotes").then((response) => {
+              setListOfUsers(response.data);
+            });
+          }
           return (
             <div className="users" key={notes}>
               <div className="note-info">
@@ -110,9 +115,10 @@ function App() {
                       Axios.get("http://localhost:3001/getNotes").then(
                         (response) => {
                           setListOfUsers(response.data);
-                        })
+                        }
+                      );
                     });
-                    setDeleteModal(true)
+                    setDeleteModal(true);
                   }}
                   id="delete-button"
                 >
