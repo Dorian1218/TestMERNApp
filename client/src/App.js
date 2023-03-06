@@ -88,6 +88,7 @@ function App() {
               <div className="note-info">
                 <h1>{note.title}</h1>
                 <li>{note.notesBody}</li>
+                <li>{note._id}</li>
               </div>
               <div className="notes-footer">
                 <li>{note.date}</li>
@@ -106,7 +107,12 @@ function App() {
                           setListOfUsers(response.data);
                         }
                       );
+                      Axios.get("http://localhost:3001/getNotes").then(
+                        (response) => {
+                          setListOfUsers(response.data);
+                        })
                     });
+                    setDeleteModal(true)
                   }}
                   id="delete-button"
                 >
