@@ -1,79 +1,129 @@
-import './App.css';
-import { useState, useEffect } from "react"
-import Axios from "axios"
-import { AiFillPlusCircle } from "react-icons/ai"
-import { BsFillTrashFill } from "react-icons/bs"
-import Modal from './Modal';
+import "./App.css";
+import { useState, useEffect, useId } from "react";
+import Axios from "axios";
+import { AiFillPlusCircle } from "react-icons/ai";
+import { BsFillTrashFill } from "react-icons/bs";
+import Modal from "./Modal";
+import { v4 as uuid } from "uuid";
+// import DeleteModal from './deleteModal';
 
 function App() {
-
-  const [listOfUsers, setListOfUsers] = useState([])
-  const [name, setName] = useState("")
-  const [age, setAge] = useState("")
-  const [showModal, setShowModal] = useState(false)
-  const [showAlert, setShowAlert] = useState(false)
-  const [errorMsg, setErrorMsg] = useState("")
-  var date = new Date().toLocaleString()
-
-  const notes = document.getElementsByClassName("users")
+  const [listOfUsers, setListOfUsers] = useState([]);
+  const [title, setTitle] = useState("");
+  const [notesBody, setNotesBody] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  // const [showDeleteModal, setDeleteModal] = useState(false)
+  var date = new Date().toLocaleString();
+  const id = uuid();
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/getUsers").then((response) => {
-      setListOfUsers(response.data)
-    })
-  }, [])
+    Axios.get("http://localhost:3001/getNotes").then((response) => {
+      setListOfUsers(response.data);
+    });
+  }, []);
 
   const createUser = () => {
-    if (name === "" && age === "") {
-      setShowAlert(true)
-      setErrorMsg("Inputs are empty")
+    if (title === "" || notesBody === "") {
+      setShowAlert(true);
+      setErrorMsg("Inputs are empty");
       setTimeout(() => {
-        setShowAlert(false)
-      }, 2000)
+        setShowAlert(false);
+      }, 2000);
+    } else {
+      Axios.post("http://localhost:3001/createNote", {
+        title,
+        notesBody,
+        date,
+        id,
+      }).then(() => {
+        setListOfUsers([...listOfUsers, { title, notesBody, date, id }]);
+      });
+      Axios.get("http://localhost:3001/getNotes").then((response) => {
+        setListOfUsers(response.data);
+      });
+      Axios.get("http://localhost:3001/getNotes").then((response) => {
+        setListOfUsers(response.data);
+      });
+      setTitle("");
+      setNotesBody("");
+      setShowModal(false);
+      setShowAlert(false);
     }
-    else {
-      Axios.post("http://localhost:3001/createUser", { name, age, date }).then((response) => {
-        setListOfUsers([...listOfUsers, { name, age, date }])
-      })
-      Axios.get("http://localhost:3001/getUsers").then((response) => {
-        setListOfUsers(response.data)
-      })
-      setName("")
-      setAge("")
-      setShowModal(false)
-      setShowAlert(false)
-    }
-  }
+  };
 
   const buttonClick = () => {
-    setShowModal(true)
-  }
+    setShowModal(true);
+  };
 
   const closeModal = () => {
-    setShowModal(false)
-    setShowAlert(false)
-  }
+    setShowModal(false);
+    setShowAlert(false);
+  };
+
+  // const closeDelModal = () => {
+  //   setDeleteModal(false)
+  // }
+
+  // const showDeleteModalFunc = () => {
+  //   setDeleteModal(true)
+  // }
 
   return (
     <div className="App">
-      <button className='add' onClick={buttonClick}><AiFillPlusCircle size={24} /></button>
+      <button className="add" onClick={buttonClick}>
+        <AiFillPlusCircle size={24} />
+      </button>
       <h1>Welcome to Notes app</h1>
-      <Modal show={showModal} onClose={closeModal} name={name} age={age} setName={(e) => setName(e.target.value)} setAge={(e) => setAge(e.target.value)} createCard={createUser} error={errorMsg} showAlert={showAlert} removeMsg={() => setShowAlert(false)} />
-      <div className='notes'>
-        {/* {notes.length === 0 && <p>Press the Add Button to add a note</p>} */}
-        {listOfUsers.map((user, users) => {
+      <Modal
+        show={showModal}
+        onClose={closeModal}
+        name={title}
+        age={notesBody}
+        setName={(e) => setTitle(e.target.value)}
+        setAge={(e) => setNotesBody(e.target.value)}
+        createCard={createUser}
+        error={errorMsg}
+        showAlert={showAlert}
+        removeMsg={() => setShowAlert(false)}
+      />
+      <div className="notes">
+        {listOfUsers.map((note, notes) => {
+          note.id = note._id;
           return (
-            <div className="users" key={users}>
-              <div className='note-info'>
-                <h1>{user.name}</h1>
-                <li>{user.age}</li>
+            <div className="users" key={notes}>
+              <div className="note-info">
+                <h1>{note.title}</h1>
+                <li>{note.notesBody}</li>
+                <li>{note.id}</li>
               </div>
-              <div className='notes-footer'>
-                <li>{user.date}</li>
-                <BsFillTrashFill size={24}/>
+              <div className="notes-footer">
+                <li>{note.date}</li>
+                <button
+                  onClick={() => {
+                    Axios.delete(
+                      `http://localhost:3001/deleteNote/${note.id}`
+                    ).then(() => {
+                      setListOfUsers(
+                        listOfUsers.filter((val) => {
+                          return val.id !== note.id;
+                        })
+                      );
+                      Axios.get("http://localhost:3001/getNotes").then(
+                        (response) => {
+                          setListOfUsers(response.data);
+                        }
+                      );
+                    });
+                  }}
+                  id="delete-button"
+                >
+                  <BsFillTrashFill size={24} />
+                </button>
               </div>
             </div>
-          )
+          );
         })}
       </div>
     </div>

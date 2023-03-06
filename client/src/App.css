@@ -64,6 +64,7 @@ div.header {
   height: 20px;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .modal {
@@ -125,6 +126,7 @@ div.header {
   height: 20px;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .alert-msg {
@@ -135,4 +137,20 @@ div.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+#delete-button {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-modal-button {
+  background-color: #d9534f;
+  border: none;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 10px;
 }
