@@ -5,6 +5,7 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import Modal from "./Modal";
 import { v4 as uuid } from "uuid";
+import DeleteModal from "./deleteModal";
 // import DeleteModal from './deleteModal';
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  // const [showDeleteModal, setDeleteModal] = useState(false)
+  const [showDeleteModal, setDeleteModal] = useState(false)
   var date = new Date().toLocaleString();
   const id = uuid();
 
@@ -61,14 +62,6 @@ function App() {
     setShowModal(false);
     setShowAlert(false);
   };
-
-  // const closeDelModal = () => {
-  //   setDeleteModal(false)
-  // }
-
-  // const showDeleteModalFunc = () => {
-  //   setDeleteModal(true)
-  // }
 
   return (
     <div className="App">
