@@ -19,7 +19,6 @@ function App() {
   const [searchInfo, setSearchInfo] = useState("")
   var date = new Date().toLocaleString();
   const id = uuid();
-  var filteredNotes = []
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getNotes").then((response) => {
@@ -72,14 +71,15 @@ function App() {
       </button>
       <h1>Welcome to Notes app</h1>
       <div className="search-bar">
-      <input className="search"
-        type="search"
-        placeholder="Search here" 
-        value={searchInfo}
-        onChange={(e) => 
-          {e.preventDefault()
-          setSearchInfo(e.target.value)
-          console.log(searchInfo)}}/>
+        <input className="search"
+          type="search"
+          placeholder="Search here"
+          value={searchInfo}
+          onChange={(e) => {
+            e.preventDefault()
+            setSearchInfo(e.target.value)
+            console.log(searchInfo)
+          }} />
       </div>
       <Modal
         show={showModal}
@@ -100,57 +100,6 @@ function App() {
               setListOfUsers(response.data);
             });
           }
-
-          if (searchInfo.length > 0) {
-            listOfUsers.filter((notesFiltered) => {
-              if (notesFiltered.title.includes(searchInfo)) {
-                notesFiltered.push(filteredNotes)
-              }
-
-              filteredNotes.map((note, notes) => {
-                return (
-                  <div className="users" key={notes}>
-                <div className="note-info">
-                  <h1>{note.title}</h1>
-                  <li>{note.notesBody}</li>
-                </div>
-                <div className="notes-footer">
-                  <li>{note.date}</li>
-                  <button
-                    onClick={() => {
-                      Axios.delete(
-                        `http://localhost:3001/deleteNote/${note._id}`
-                      ).then(() => {
-                        setListOfUsers(
-                          listOfUsers.filter((val) => {
-                            return val._id !== note._id;
-                          })
-                        );
-                        Axios.get("http://localhost:3001/getNotes").then(
-                          (response) => {
-                            setListOfUsers(response.data);
-                          }
-                        );
-                        Axios.get("http://localhost:3001/getNotes").then(
-                          (response) => {
-                            setListOfUsers(response.data);
-                          }
-                        );
-                      });
-                      setDeleteModal(true);
-                    }}
-                    id="delete-button"
-                  >
-                    <BsFillTrashFill size={24} />
-                  </button>
-                </div>
-              </div>
-                )
-              })
-            })
-          }
-
-          else {
             return (
               <div className="users" key={notes}>
                 <div className="note-info">
@@ -188,9 +137,9 @@ function App() {
                   </button>
                 </div>
               </div>
-            );
-          }
-        })}
+            )
+        })
+        }
       </div>
     </div>
   );
