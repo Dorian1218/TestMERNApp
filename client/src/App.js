@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   const filteredList = listOfUsers.filter((val) => {
-    return val.title.toLowerCase().includes(searchInfo.toLowerCase());
+    return (val.title.toLowerCase() + val.notesBody.toLowerCase()).includes(searchInfo.toLowerCase());
   });
 
   const createUser = () => {
@@ -79,7 +79,7 @@ function App() {
         <input
           className="search"
           type="search"
-          placeholder="Search here"
+          placeholder="Search Note Title"
           value={searchInfo}
           onChange={(e) => {
             e.preventDefault();
