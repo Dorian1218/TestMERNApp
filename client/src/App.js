@@ -16,61 +16,20 @@ function App() {
   const [showAlert, setShowAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [showDeleteModal, setDeleteModal] = useState(false);
-  const [searchInfo, setSearchInfo] = useState("")
+  const [searchInfo, setSearchInfo] = useState("");
   var date = new Date().toLocaleString();
   const id = uuid();
-
-  const notes = listOfUsers.map((note, notes) => {
-    if (note._id === undefined) {
-      Axios.get("http://localhost:3001/getNotes").then((response) => {
-        setListOfUsers(response.data);
-      });
-    }
-    return (
-      <div className="users" key={notes}>
-        <div className="note-info">
-          <h1>{note.title}</h1>
-          <li>{note.notesBody}</li>
-        </div>
-        <div className="notes-footer">
-          <li>{note.date}</li>
-          <button
-            onClick={() => {
-              Axios.delete(
-                `http://localhost:3001/deleteNote/${note._id}`
-              ).then(() => {
-                setListOfUsers(
-                  listOfUsers.filter((val) => {
-                    return val._id !== note._id;
-                  })
-                );
-                Axios.get("http://localhost:3001/getNotes").then(
-                  (response) => {
-                    setListOfUsers(response.data);
-                  }
-                );
-                Axios.get("http://localhost:3001/getNotes").then(
-                  (response) => {
-                    setListOfUsers(response.data);
-                  }
-                );
-              });
-              setDeleteModal(true);
-            }}
-            id="delete-button"
-          >
-            <BsFillTrashFill size={24} />
-          </button>
-        </div>
-      </div>
-    )
-  })
 
   useEffect(() => {
     Axios.get("http://localhost:3001/getNotes").then((response) => {
       setListOfUsers(response.data);
+      console.log(listOfUsers);
     });
   }, []);
+
+  const filteredList = listOfUsers.filter((val) => {
+    return val.title.toLowerCase().includes(searchInfo.toLowerCase());
+  });
 
   const createUser = () => {
     if (title === "" || notesBody === "") {
@@ -117,15 +76,16 @@ function App() {
       </button>
       <h1>Welcome to Notes app</h1>
       <div className="search-bar">
-        <input className="search"
+        <input
+          className="search"
           type="search"
           placeholder="Search here"
           value={searchInfo}
           onChange={(e) => {
-            e.preventDefault()
-            setSearchInfo(e.target.value)
-          }} />
-          <button className="search-button">Search</button>
+            e.preventDefault();
+            setSearchInfo(e.target.value);
+          }}
+        />
       </div>
       <Modal
         show={showModal}
@@ -140,52 +100,99 @@ function App() {
         removeMsg={() => setShowAlert(false)}
       />
       <div className="notes">
-        {listOfUsers.map((note, notes) => {
-          if (note._id === undefined) {
-            Axios.get("http://localhost:3001/getNotes").then((response) => {
-              setListOfUsers(response.data);
-            });
-          }
-          return (
-            <div className="users" key={notes}>
-              <div className="note-info">
-                <h1>{note.title}</h1>
-                <li>{note.notesBody}</li>
+        {searchInfo.length === 0 &&
+          listOfUsers.map((note, notes) => {
+            if (note._id === undefined) {
+              Axios.get("http://localhost:3001/getNotes").then((response) => {
+                setListOfUsers(response.data);
+              });
+            }
+            return (
+              <div className="users" key={notes}>
+                <div className="note-info">
+                  <h1>{note.title}</h1>
+                  <li>{note.notesBody}</li>
+                </div>
+                <div className="notes-footer">
+                  <li>{note.date}</li>
+                  <button
+                    onClick={() => {
+                      Axios.delete(
+                        `http://localhost:3001/deleteNote/${note._id}`
+                      ).then(() => {
+                        setListOfUsers(
+                          listOfUsers.filter((val) => {
+                            return val._id !== note._id;
+                          })
+                        );
+                        Axios.get("http://localhost:3001/getNotes").then(
+                          (response) => {
+                            setListOfUsers(response.data);
+                          }
+                        );
+                        Axios.get("http://localhost:3001/getNotes").then(
+                          (response) => {
+                            setListOfUsers(response.data);
+                          }
+                        );
+                      });
+                      setDeleteModal(true);
+                    }}
+                    id="delete-button"
+                  >
+                    <BsFillTrashFill size={24} />
+                  </button>
+                </div>
               </div>
-              <div className="notes-footer">
-                <li>{note.date}</li>
-                <button
-                  onClick={() => {
-                    Axios.delete(
-                      `http://localhost:3001/deleteNote/${note._id}`
-                    ).then(() => {
-                      setListOfUsers(
-                        listOfUsers.filter((val) => {
-                          return val._id !== note._id;
-                        })
-                      );
-                      Axios.get("http://localhost:3001/getNotes").then(
-                        (response) => {
-                          setListOfUsers(response.data);
-                        }
-                      );
-                      Axios.get("http://localhost:3001/getNotes").then(
-                        (response) => {
-                          setListOfUsers(response.data);
-                        }
-                      );
-                    });
-                    setDeleteModal(true);
-                  }}
-                  id="delete-button"
-                >
-                  <BsFillTrashFill size={24} />
-                </button>
+            );
+          })}
+
+        {searchInfo.length > 0 &&
+          filteredList.map((note, notes) => {
+            if (note._id === undefined) {
+              Axios.get("http://localhost:3001/getNotes").then((response) => {
+                setListOfUsers(response.data);
+              });
+            }
+            return (
+              <div className="users" key={notes}>
+                <div className="note-info">
+                  <h1>{note.title}</h1>
+                  <li>{note.notesBody}</li>
+                </div>
+                <div className="notes-footer">
+                  <li>{note.date}</li>
+                  <button
+                    onClick={() => {
+                      Axios.delete(
+                        `http://localhost:3001/deleteNote/${note._id}`
+                      ).then(() => {
+                        setListOfUsers(
+                          listOfUsers.filter((val) => {
+                            return val._id !== note._id;
+                          })
+                        );
+                        Axios.get("http://localhost:3001/getNotes").then(
+                          (response) => {
+                            setListOfUsers(response.data);
+                          }
+                        );
+                        Axios.get("http://localhost:3001/getNotes").then(
+                          (response) => {
+                            setListOfUsers(response.data);
+                          }
+                        );
+                      });
+                      setDeleteModal(true);
+                    }}
+                    id="delete-button"
+                  >
+                    <BsFillTrashFill size={24} />
+                  </button>
+                </div>
               </div>
-            </div>
-          )
-        })
-        }
+            );
+          })}
       </div>
     </div>
   );
