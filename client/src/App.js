@@ -28,11 +28,11 @@ function App() {
   }, []);
 
   const filteredList = listOfUsers.filter((val) => {
-    return (val.title.toLowerCase() + val.notesBody.toLowerCase()).includes(searchInfo.toLowerCase());
+    return (val.title.toLowerCase() + val.notesBody.toLowerCase()).includes(searchInfo.toLowerCase().replace(" ", ""));
   });
 
   const createUser = () => {
-    if (title === "" || notesBody === "") {
+    if (title.length === 0 || notesBody.length === 0) {
       setShowAlert(true);
       setErrorMsg("Inputs are empty");
       setTimeout(() => {
