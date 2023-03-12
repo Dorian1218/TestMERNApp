@@ -6,6 +6,7 @@ import { BsFillTrashFill } from "react-icons/bs";
 import Modal from "./Modal";
 import { v4 as uuid } from "uuid";
 import DeleteModal from "./deleteModal";
+import { AuthContextProvider } from "../AuthContext";
 // import DeleteModal from './deleteModal';
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
   };
 
   return (
+    <AuthContextProvider>
     <div className="App">
       <button className="add" onClick={buttonClick}>
         <AiFillPlusCircle size={24} />
@@ -195,6 +197,7 @@ function App() {
           })}
       </div>
     </div>
+    </AuthContextProvider>
   );
 }
 
