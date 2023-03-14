@@ -35,6 +35,8 @@ li {
   list-style: none;
   list-style-position:inside;
   white-space: wrap;
+  text-decoration: none;
+  color: black;
 }
 
 div.users {
@@ -173,4 +175,37 @@ div.header {
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
+}
+
+.navbar {
+  height: 50px;
+  background-color: gray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.navbar > a > li {
+  font-size: 1.5em;
+}
+
+a {
+  text-decoration: none;
+}
+
+.signup-button {
+  background-color: transparent;
+  border: none;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  border: 2px solid #0275d8;
+}
+
+.signup-button:hover {
+  color: rgba(0, 0, 0, 0.5);
+  transition: 0.5s linear;
 }
