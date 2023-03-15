@@ -103,6 +103,7 @@ function Home() {
                     showAlert={showAlert}
                     removeMsg={() => setShowAlert(false)}
                 />
+                {listOfUsers.length === 0 && <p><b>Press the add icon to create your first note</b></p>} 
                 <div className="notes">
                     {searchInfo.length === 0 &&
                         listOfUsers.map((note, notes) => {
