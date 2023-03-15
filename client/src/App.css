@@ -143,7 +143,7 @@ div.header {
   justify-content: space-between;
 }
 
-#delete-button {
+.delete-button {
   width: 20px;
   height: 20px;
   background-color: transparent;

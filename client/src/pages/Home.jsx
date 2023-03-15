@@ -142,7 +142,7 @@ function Home() {
                                                 });
                                                 setDeleteModal(true);
                                             }}
-                                            id="delete-button"
+                                            className="delete-button"
                                         >
                                             <BsFillTrashFill size={24} />
                                         </button>
