@@ -12,7 +12,7 @@ function App() {
   return (
     <AuthContextProvider>
       <div className="navbar">
-          <Link to="*"><li>Notes App</li></Link>
+          <Link to="/*"><li>Notes App</li></Link>
         <div>
         <Link to="/signin">Sign in</Link>
         <Link to="/signup"><button className="signup-button">Sign up</button></Link>
@@ -20,7 +20,7 @@ function App() {
         </div>
       </div>
       <Routes>
-        <Route path="*" element={<Home/>}></Route>
+        <Route path="/*" element={<Home/>}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/signin" element={<Signin />}></Route>
       </Routes>
