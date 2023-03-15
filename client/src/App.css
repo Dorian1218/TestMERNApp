@@ -216,3 +216,34 @@ a:hover {
   color: rgba(0, 0, 0, 0.5);
   transition: 0.5s linear;
 }
+
+.auth-form-container, form {
+  height: calc(100vh - 50px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+label {
+  width: 100%;
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+input {
+  margin: 0.5rem 0;
+  width: 200px;
+}
+
+button.form-submit {
+  border: none;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+@media only screen and (width < 375) {
+
+}
