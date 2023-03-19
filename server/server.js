@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const NotesModel = require("./models/Notes");
 require("dotenv").config();
-const uri = process.env.ATLAS_URI;
+const uri = process.env.REACT_APP_ATLAS_URI;
 
 app.use(express.json());
 app.use(cors());

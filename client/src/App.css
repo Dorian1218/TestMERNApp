@@ -1,21 +1,15 @@
-*{
-  margin: 0;
+* {
   padding: 0;
- }
-
- body {
-  height: 100vh;
-  background-color: lightblue;
 }
+
 .App {
   text-align: center;
   display: flex;
-  align-content: center;
   flex-direction: column;
-  justify-content: center;
-  padding: 50px;
   font-family: 'Courier New', Courier, monospace;
-}        
+  background-color: lightblue;
+  height: 100vh;
+}
 
 .App-link {
   color: #61dafb;
@@ -25,6 +19,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -33,7 +28,7 @@
 
 li {
   list-style: none;
-  list-style-position:inside;
+  list-style-position: inside;
   white-space: wrap;
   text-decoration: none;
   color: black;
@@ -68,6 +63,7 @@ div.header {
   background-color: transparent;
   border: none;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .modal {
@@ -87,7 +83,8 @@ div.header {
   background-color: #fff;
 }
 
-.modal-header, .modal-footer {
+.modal-header,
+.modal-footer {
   padding: 10px;
 }
 
@@ -187,9 +184,9 @@ div.header {
   padding-right: 20px;
 }
 
-.navbar > a > li {
+/* .navbar>a>li {
   font-size: 1.5em;
-}
+} */
 
 a {
   text-decoration: none;
@@ -208,7 +205,7 @@ a {
 
 .signup-button:hover {
   color: rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(2,117,216, 0.75);
+  border: 2px solid rgba(2, 117, 216, 0.75);
   transition: 0.5s linear;
 }
 
@@ -217,33 +214,15 @@ a:hover {
   transition: 0.5s linear;
 }
 
-.auth-form-container, form {
-  height: calc(100vh - 50px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
 label {
   width: 100%;
   text-align: left;
   padding: 0.25rem 0;
 }
 
-input {
+/* input {
   margin: 0.5rem 0;
   width: 200px;
-}
+} */
 
-button.form-submit {
-  border: none;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%;
-}
-
-@media only screen and (width < 375) {
-
-}
+@media only screen and (width < 375) {}
