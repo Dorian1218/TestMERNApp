@@ -9,6 +9,7 @@ function CreateNavbar() {
     const handleLogout = async () => {
         try {
             await logout();
+            navigate("/")
         } catch (e) {
             console.log(e.message);
         }
@@ -17,7 +18,8 @@ function CreateNavbar() {
         <Navbar bg="dark" variant="dark">
             <Container>
                 <Nav style={{paddingTop: "10px"}}>
-                    <Link style={{color: "#fff", textDecoration: "none"}} to="/*"><h3>Notes App</h3></Link>
+                    {!user && <Link style={{color: "#fff", textDecoration: "none"}} to="/"><h3>Notes App</h3></Link>}
+                    {user && <Link style={{color: "#fff", textDecoration: "none"}} to="/home"><h3>Notes App</h3></Link>}
                 </Nav>
             </Container>
             <Nav className="ms-auto" style={{ marginRight: "20px", alignItems: "center" }}>

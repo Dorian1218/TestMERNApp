@@ -3,6 +3,7 @@ import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom"
 import { UserAuth } from "../AuthContext"
 import Alert from "../Alert"
+import { GoogleButton } from "react-google-button";
 import "../App.css"
 
 function Signup() {
@@ -14,12 +15,24 @@ function Signup() {
     let [showAlert, setShowAlert] = useState(false)
     let [errorMsg, setErrorMsg] = useState("");
 
-    const { login, createUser, user } = UserAuth();
+    const { login, createUser, user, signInWithGoogle} = UserAuth();
+
+    const handleGoogleSignIn = async () => {
+        await signInWithGoogle();
+        if (user !== undefined) {
+            setTimeout(() => {
+                navigate("/home");
+            }, 1000);
+        }
+        else {
+            navigate("/signup")
+        }
+      };
 
     const handleSignup = async () => {
         try {
             await createUser(email, password);
-            navigate("/*");
+            navigate("/home");
         } catch (e) {
             setShowAlert(true)
             setErrorMsg(e.message)
@@ -32,9 +45,12 @@ function Signup() {
         <>
             <Container className='d-flex align-items-center justify-content-center'>
                 <div className='w-100' style={{ maxWidth: "400px" }}>
-                    <Card>
+                    <Card style={{ display: "flex", justifyContent: "center" }}>
                         <Card.Body>
                             <h2 className='text-center mb-4'>Sign Up</h2>
+                            <div style={{display: "flex", justifyContent: "center"}}>
+                                <GoogleButton style={{ alignContent: "center" }} onClick={handleGoogleSignIn}/>
+                            </div>
                             <Alert showAlertMsg={showAlert} message={errorMsg}></Alert>
                             <Form>
                                 <Form.Group id='email'>

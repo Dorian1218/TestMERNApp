@@ -94,10 +94,12 @@ function Home() {
             <Routes>
                 <Route path="/Signup" element={<Signup />}></Route>
             </Routes>
+            <div style={{display: "flex", justifyContent: "flex-start"}}>
             <button className="add" onClick={buttonClick}>
-                <AiFillPlusCircle size={24} />
+                <AiFillPlusCircle size={35} />
             </button>
-            <h1>Welcome to Notes app</h1>
+            </div>
+            <h1>Notes app</h1>
             <div className="search-bar">
                 <input
                     className="search"

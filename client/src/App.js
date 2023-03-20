@@ -7,24 +7,16 @@ import { AuthContextProvider, UserAuth } from "./AuthContext";
 import Signin from "./pages/Signin";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import CreateNavbar from "./Navbar";
+import RoutesContext from "./RoutesContext";
 
 function App() {
-  const navigate = useNavigate();
-
-  // const {user} = UserAuth();
 
   return (
     <div className="App">
       <AuthContextProvider>
         <CreateNavbar />
-      </AuthContextProvider>
-      <br />
-      <AuthContextProvider>
-        <Routes>
-          <Route path="/*" element={<Home />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/signin" element={<Signin />}></Route>
-        </Routes>
+        <br />
+        <RoutesContext />
       </AuthContextProvider>
     </div>
   );

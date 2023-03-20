@@ -3,6 +3,7 @@ import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom"
 import { UserAuth } from "../AuthContext"
 import Alert from "../Alert"
+import { GoogleButton } from "react-google-button";
 import "../App.css"
 
 function Signin() {
@@ -17,7 +18,7 @@ function Signin() {
   const handleSignin = async () => {
     try {
       await login(email, password);
-      navigate("/*");
+      navigate("/home");
     } catch (e) {
       setShowAlert(true)
       setErrorMsg(e.message)
@@ -33,6 +34,9 @@ function Signin() {
           <Card>
             <Card.Body>
               <h2 className='text-center mb-4'>Sign In</h2>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <GoogleButton style={{ alignContent: "center" }} />
+              </div>
               <Alert showAlertMsg={showAlert} message={errorMsg}></Alert>
               <Form>
                 <Form.Group id='email'>
