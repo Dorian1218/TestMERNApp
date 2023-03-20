@@ -15,7 +15,7 @@ function CreateNavbar() {
         }
     }
     return (
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg="dark" variant="dark" style={{display: "flex", alignItems: "center"}}>
             <Container>
                 <Nav style={{paddingTop: "10px"}}>
                     {!user && <Link style={{color: "#fff", textDecoration: "none"}} to="/"><h3>Notes App</h3></Link>}
@@ -33,9 +33,7 @@ function CreateNavbar() {
                         Sign in
                     </Button>
                 </Link>)}
-                <div style={{display: "flex", alignItems: "center"}}>
-                {user && <p style={{color: "white"}}>{user.email}</p>} 
-                </div>
+                {user && <p style={{color: "white", marginRight: "10px", alignContent: "center", paddingTop: "10px"}}>{user.email}</p>} 
                 {user && (<Button variant='danger' style={{ width: "130px" }} onClick={handleLogout}>Logout</Button>)}
             </Nav>
         </Navbar>
