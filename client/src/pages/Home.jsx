@@ -4,22 +4,28 @@ import Axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import Modal from "../Modal";
-import { v4 as uuid } from "uuid";
-import { AuthContextProvider } from "../AuthContext";
+import { AuthContextProvider, UserAuth } from "../AuthContext";
 import { Routes, Route } from "react-router-dom"
 import Signup from "../pages/Signup";
 import ModalPop from '../Modal';
+import Alert from '../Alert';
 function Home() {
     const [listOfUsers, setListOfUsers] = useState([]);
     const [title, setTitle] = useState("");
     const [notesBody, setNotesBody] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [showAddAlert, setShowAddAlert] = useState(false);
+    const [errorAddMsg, setErrorAddMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [showDeleteModal, setDeleteModal] = useState(false);
     const [searchInfo, setSearchInfo] = useState("");
     var date = new Date().toLocaleString();
-    const id = uuid();
+    const { user } = UserAuth()
+    var useremail
+    if (user) {
+        useremail = user.email
+    }
 
     useEffect(() => {
         Axios.get("http://localhost:3001/getNotes").then((response) => {
@@ -28,8 +34,12 @@ function Home() {
         });
     }, []);
 
-    const filteredList = listOfUsers.filter((val) => {
-        return (val.title.toLowerCase() + val.notesBody.toLowerCase()).includes(searchInfo.toLowerCase().replace(" ", ""));
+    const shownList = listOfUsers.filter((val) => {
+        return (val.useremail === useremail)
+    })
+
+    const filteredList = shownList.filter((val) => {
+        return ((val.title.toLowerCase() + val.notesBody.toLowerCase()).replace("'", "")).includes(searchInfo.toLowerCase().replace(" ", "").replace("'", ""));
     });
 
     const createUser = () => {
@@ -44,9 +54,9 @@ function Home() {
                 title,
                 notesBody,
                 date,
-                id,
+                useremail
             }).then(() => {
-                setListOfUsers([...listOfUsers, { title, notesBody, date, id }]);
+                setListOfUsers([...listOfUsers, { title, notesBody, date, useremail }]);
             });
             Axios.get("http://localhost:3001/getNotes").then((response) => {
                 setListOfUsers(response.data);
@@ -62,7 +72,16 @@ function Home() {
     };
 
     const buttonClick = () => {
-        setShowModal(true);
+        if (!user) {
+            setShowAddAlert(true)
+            setErrorAddMsg("You need to log in")
+            setTimeout(() => {
+                setShowAddAlert(false);
+            }, 2000);
+        }
+        else {
+            setShowModal(true);
+        }
     };
 
     const closeModal = () => {
@@ -103,10 +122,12 @@ function Home() {
                 showAlert={showAlert}
                 removeMsg={() => setShowAlert(false)}
             />
-            {listOfUsers.length === 0 && <p><b>Press the add icon to create your first note</b></p>}
+            {!user && <p><b>Please Sign in to start creating notes!</b></p>}
+            {shownList.length === 0 && user && <p><b>Press the add icon to create your first note</b></p>}
+            <Alert showAlertMsg={showAddAlert} message={errorAddMsg}></Alert>
             <div className="notes">
                 {searchInfo.length === 0 &&
-                    listOfUsers.map((note, notes) => {
+                    shownList.map((note, notes) => {
                         if (note._id === undefined) {
                             Axios.get("http://localhost:3001/getNotes").then((response) => {
                                 setListOfUsers(response.data);

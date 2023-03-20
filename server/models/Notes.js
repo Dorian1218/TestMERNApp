@@ -13,7 +13,7 @@ const NotesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  id: {
+  useremail: {
     type: String,
     required: true,
   },

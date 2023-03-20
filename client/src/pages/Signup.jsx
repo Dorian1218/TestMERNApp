@@ -2,17 +2,32 @@ import React, { useState } from 'react'
 import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom"
 import { UserAuth } from "../AuthContext"
+import Alert from "../Alert"
 import "../App.css"
 
 function Signup() {
-
+    const navigate = useNavigate()
     let [email, setEmail] = useState("");
     let [username, setUsernamme] = useState("")
     let [password, setPassword] = useState("");
     let [confirmPassword, setConfirmPassword] = useState("")
-    let [error, setError] = useState("");
+    let [showAlert, setShowAlert] = useState(false)
+    let [errorMsg, setErrorMsg] = useState("");
 
-    const { login } = UserAuth();
+    const { login, createUser, user } = UserAuth();
+
+    const handleSignup = async () => {
+        try {
+            await createUser(email, password);
+            navigate("/*");
+        } catch (e) {
+            setShowAlert(true)
+            setErrorMsg(e.message)
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 2000);
+        }
+    }
     return (
         <>
             <Container className='d-flex align-items-center justify-content-center'>
@@ -20,6 +35,7 @@ function Signup() {
                     <Card>
                         <Card.Body>
                             <h2 className='text-center mb-4'>Sign Up</h2>
+                            <Alert showAlertMsg={showAlert} message={errorMsg}></Alert>
                             <Form>
                                 <Form.Group id='email'>
                                     <Form.Label className='label'>Email</Form.Label>
@@ -37,7 +53,7 @@ function Signup() {
                                     <Form.Label>Confirm Password</Form.Label>
                                     <Form.Control type="password" value={confirmPassword} onChange={((e) => setConfirmPassword(e.target.value))} required></Form.Control>
                                 </Form.Group>
-                                <Button variant='primary' className='w-100 mt-3'>Sign Up</Button>
+                                <Button variant='primary' className='w-100 mt-3' onClick={handleSignup}>Sign Up</Button>
                             </Form>
                         </Card.Body>
                     </Card>
