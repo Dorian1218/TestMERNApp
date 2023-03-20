@@ -13,7 +13,20 @@ function Signin() {
   let [showAlert, setShowAlert] = useState(false)
   let [errorMsg, setErrorMsg] = useState("");
 
-  const { login, user } = UserAuth();
+  const { login, user, signInWithGoogle } = UserAuth();
+
+  const handleGoogleSignIn = async () => {
+    await signInWithGoogle();
+    if (user !== undefined) {
+        setTimeout(() => {
+            navigate("/home");
+        }, 1000);
+    }
+    else {
+        navigate("/signin")
+    }
+  };
+
 
   const handleSignin = async () => {
     try {
@@ -35,7 +48,7 @@ function Signin() {
             <Card.Body>
               <h2 className='text-center mb-4'>Sign In</h2>
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <GoogleButton style={{ alignContent: "center" }} />
+                <GoogleButton style={{ alignContent: "center" }} onClick={handleGoogleSignIn}/>
               </div>
               <Alert showAlertMsg={showAlert} message={errorMsg}></Alert>
               <Form>

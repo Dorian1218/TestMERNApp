@@ -33,6 +33,9 @@ function CreateNavbar() {
                         Sign in
                     </Button>
                 </Link>)}
+                <div style={{display: "flex", alignItems: "center"}}>
+                {user && <p style={{color: "white"}}>{user.email}</p>} 
+                </div>
                 {user && (<Button variant='danger' style={{ width: "130px" }} onClick={handleLogout}>Logout</Button>)}
             </Nav>
         </Navbar>
