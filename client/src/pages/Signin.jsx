@@ -54,11 +54,11 @@ function Signin() {
               <Form>
                 <Form.Group id='email'>
                   <Form.Label className='label'>Email</Form.Label>
-                  <Form.Control type="email" value={email} onChange={((e) => setEmail(e.target.value))} required></Form.Control>
+                  <Form.Control autoComplete="on" type="email" value={email} onChange={((e) => setEmail(e.target.value))} required></Form.Control>
                 </Form.Group>
                 <Form.Group id='password'>
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" value={password} onChange={((e) => setPassword(e.target.value))} required></Form.Control>
+                  <Form.Control autoComplete="on" type="password" value={password} onChange={((e) => setPassword(e.target.value))} required></Form.Control>
                 </Form.Group>
                 <Button variant='primary' className='w-100 mt-3' onClick={handleSignin}>Sign Up</Button>
               </Form>

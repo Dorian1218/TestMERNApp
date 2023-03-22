@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
-import { AnimatePresence, motion } from "framer-motion"
-import { AiFillCloseCircle } from "react-icons/ai"
 import Alert from './Alert'
 import { Modal, Button, Form } from "react-bootstrap"
 
 const ModalPop = (props) => {
-    const [show, setShow] = useState(false);
+    const [setShow] = useState(false);
     const handleClose = () => setShow(false);
     return (
         <>
-
             <Modal
                 show={props.show}
                 onHide={handleClose}

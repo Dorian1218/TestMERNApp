@@ -9,7 +9,7 @@ function CreateNavbar() {
     const handleLogout = async () => {
         try {
             await logout();
-            navigate("/")
+            navigate("*")
         } catch (e) {
             console.log(e.message);
         }
@@ -33,7 +33,7 @@ function CreateNavbar() {
                         Sign in
                     </Button>
                 </Link>)}
-                {user && <p style={{color: "white", marginRight: "10px", alignContent: "center", paddingTop: "10px"}}>{user.email}</p>} 
+                {user && <p style={{color: "white", marginRight: "10px", alignContent: "center", paddingTop: "15px"}}>{user.email}</p>} 
                 {user && (<Button variant='danger' style={{ width: "130px" }} onClick={handleLogout}>Logout</Button>)}
             </Nav>
         </Navbar>

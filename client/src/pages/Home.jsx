@@ -145,6 +145,7 @@ function Home() {
                                     <li>{note.date}</li>
                                     <button
                                         onClick={() => {
+                                            console.log(note._id)
                                             Axios.delete(
                                                 `http://localhost:3001/deleteNote/${note._id}`
                                             ).then(() => {
