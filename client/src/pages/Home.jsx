@@ -1,9 +1,8 @@
 import React from 'react'
-import { useState, useEffect, useId } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
-import Modal from "../Modal";
 import { AuthContextProvider, UserAuth } from "../AuthContext";
 import { Routes, Route } from "react-router-dom"
 import Signup from "../pages/Signup";
@@ -18,7 +17,7 @@ function Home() {
     const [showAddAlert, setShowAddAlert] = useState(false);
     const [errorAddMsg, setErrorAddMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
-    const [showDeleteModal, setDeleteModal] = useState(false);
+    const [setDeleteModal] = useState(false);
     const [searchInfo, setSearchInfo] = useState("");
     var date = new Date().toLocaleString();
     const { user } = UserAuth()
@@ -32,7 +31,7 @@ function Home() {
             setListOfUsers(response.data);
             console.log(listOfUsers);
         });
-    }, []);
+    }, [listOfUsers]);
 
     const shownList = listOfUsers.filter((val) => {
         return (val.useremail === useremail)
