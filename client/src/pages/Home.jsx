@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
+import { GrUpdate } from "react-icons/gr"
 import { AuthContextProvider, UserAuth } from "../AuthContext";
 import { Routes, Route } from "react-router-dom"
 import Signup from "../pages/Signup";
 import ModalPop from '../Modal';
 import Alert from '../Alert';
+import UpdateModal from '../UpdateModal';
 function Home() {
     const [listOfUsers, setListOfUsers] = useState([]);
     const [title, setTitle] = useState("");
@@ -19,17 +21,20 @@ function Home() {
     const [errorMsg, setErrorMsg] = useState("");
     const [setDeleteModal] = useState(false);
     const [searchInfo, setSearchInfo] = useState("");
+    var [currentTitle, setCurrentTitle] = useState("")
+    var [currentNoteBody, setCurrentNoteBody] = useState("")
+    const [showUpdate, setShowUpdate] = useState(false)
+    var [currentId, setCurrentId] = useState("")
     var date = new Date().toLocaleString();
     const { user } = UserAuth()
     var useremail
     if (user) {
         useremail = user.email
     }
-
+    
     useEffect(() => {
         Axios.get("http://localhost:3001/getNotes").then((response) => {
             setListOfUsers(response.data);
-            console.log(listOfUsers);
         });
     }, [listOfUsers]);
 
@@ -57,12 +62,6 @@ function Home() {
             }).then(() => {
                 setListOfUsers([...listOfUsers, { title, notesBody, date, useremail }]);
             });
-            Axios.get("http://localhost:3001/getNotes").then((response) => {
-                setListOfUsers(response.data);
-            });
-            Axios.get("http://localhost:3001/getNotes").then((response) => {
-                setListOfUsers(response.data);
-            });
             setTitle("");
             setNotesBody("");
             setShowModal(false);
@@ -88,15 +87,25 @@ function Home() {
         setShowAlert(false);
     };
 
+    const updateNote = (id) => {
+        try{
+            Axios.put("http://localhost:3001/update", {id: id, newNoteTitle: currentTitle, newNoteNotesBody: currentNoteBody})
+        } catch (err) {
+            console.log(err)
+        }
+        console.log(currentTitle)
+        setShowUpdate(false)
+    }
+
     return (
         <AuthContextProvider>
             <Routes>
                 <Route path="/Signup" element={<Signup />}></Route>
             </Routes>
-            <div style={{display: "flex", justifyContent: "flex-start"}}>
-            <button className="add" onClick={buttonClick}>
-                <AiFillPlusCircle size={35} />
-            </button>
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                <button className="add" onClick={buttonClick}>
+                    <AiFillPlusCircle size={35} />
+                </button>
             </div>
             <h1>Notes app</h1>
             <div className="search-bar">
@@ -123,6 +132,15 @@ function Home() {
                 showAlert={showAlert}
                 removeMsg={() => setShowAlert(false)}
             />
+            <UpdateModal 
+                show={showUpdate}
+                onClose={() => {setShowUpdate(false)}}
+                name={currentTitle}
+                age={currentNoteBody}
+                setName={(e) => setCurrentTitle(e.target.value)}
+                setAge={(e) => setCurrentNoteBody(e.target.value)}
+                updateNote={() => {updateNote(currentId)}}
+            />
             {!user && <p><b>Please Sign in to start creating notes!</b></p>}
             {shownList.length === 0 && user && <p><b>Press the add icon to create your first note</b></p>}
             <Alert showAlertMsg={showAddAlert} message={errorAddMsg}></Alert>
@@ -142,6 +160,15 @@ function Home() {
                                 </div>
                                 <div className="notes-footer">
                                     <li>{note.date}</li>
+                                    <button className='delete-button' onClick={() => {
+                                        setCurrentId(note._id)
+                                        setCurrentTitle(note.title)
+                                        setCurrentNoteBody(note.notesBody)
+                                        console.log(currentTitle)
+                                        setShowUpdate(true)
+                                    }}>
+                                        <GrUpdate size={24} />
+                                    </button>
                                     <button
                                         onClick={() => {
                                             console.log(note._id)

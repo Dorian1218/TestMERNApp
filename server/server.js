@@ -33,6 +33,20 @@ app.post("/createNote", async (req, res) => {
   res.json(note);
 });
 
+app.put("/update", async (req, res) => {
+  const newNoteTitle = req.body.title
+  const newNoteNotesBody = req.body.notesBody
+  const id = req.body.id
+
+  try{
+    NotesModel.findById(id, (updateNote, updateNoteBody) => {
+      updateNoteTitle
+    })
+  }catch (err) {
+
+  }
+})
+
 app.delete("/deleteNote/:id", async (req, res) => {
   const id = req.params.id;
   await NotesModel.findByIdAndRemove(id).exec();
