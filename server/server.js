@@ -33,17 +33,20 @@ app.post("/createNote", async (req, res) => {
   res.json(note);
 });
 
-app.put("/update", async (req, res) => {
-  const newNoteTitle = req.body.title
-  const newNoteNotesBody = req.body.notesBody
+app.put("/update", (req, res) => {
+  const newNoteTitle = req.body.currentTitle
+  const newNoteNotesBody = req.body.currentNoteBody
   const id = req.body.id
 
   try{
-    NotesModel.findById(id, (updateNote, updateNoteBody) => {
-      updateNoteTitle
+    NotesModel.findById(id, (err, updatedNote) => {
+      updatedNote.title = newNoteTitle
+      updatedNote.notesBody = newNoteNotesBody
+      updatedNote.save()
+      res.send("updated")
     })
   }catch (err) {
-
+    console.log(err)
   }
 })
 

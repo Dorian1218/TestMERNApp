@@ -89,7 +89,7 @@ function Home() {
 
     const updateNote = (id) => {
         try{
-            Axios.put("http://localhost:3001/update", {id: id, newNoteTitle: currentTitle, newNoteNotesBody: currentNoteBody})
+            Axios.put("http://localhost:3001/update", {id: id, currentTitle: currentTitle, currentNoteBody: currentNoteBody})
         } catch (err) {
             console.log(err)
         }
