@@ -217,8 +217,18 @@ function Home() {
                                 </div>
                                 <div className="notes-footer">
                                     <li>{note.date}</li>
+                                    <button className='delete-button' onClick={() => {
+                                        setCurrentId(note._id)
+                                        setCurrentTitle(note.title)
+                                        setCurrentNoteBody(note.notesBody)
+                                        console.log(currentTitle)
+                                        setShowUpdate(true)
+                                    }}>
+                                        <GrUpdate size={24} />
+                                    </button>
                                     <button
                                         onClick={() => {
+                                            console.log(note._id)
                                             Axios.delete(
                                                 `http://localhost:3001/deleteNote/${note._id}`
                                             ).then(() => {
@@ -246,7 +256,7 @@ function Home() {
                                     </button>
                                 </div>
                             </div>
-                        );
+                        )
                     })}
             </div>
         </AuthContextProvider>

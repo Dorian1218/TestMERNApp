@@ -15,6 +15,14 @@ connection.once("open", () => {
   console.log("MongoDB Database has succesfully connected");
 });
 
+app.post("/createNote", async (req, res) => {
+  const note = req.body;
+  const newNote = new NotesModel(note);
+  await newNote.save();
+
+  res.json(note);
+});
+
 app.get("/getNotes", (req, res) => {
   NotesModel.find({}, (err, result) => {
     if (err) {
@@ -25,30 +33,22 @@ app.get("/getNotes", (req, res) => {
   });
 });
 
-app.post("/createNote", async (req, res) => {
-  const note = req.body;
-  const newNote = new NotesModel(note);
-  await newNote.save();
-
-  res.json(note);
-});
-
 app.put("/update", (req, res) => {
-  const newNoteTitle = req.body.currentTitle
-  const newNoteNotesBody = req.body.currentNoteBody
-  const id = req.body.id
+  const newNoteTitle = req.body.currentTitle;
+  const newNoteNotesBody = req.body.currentNoteBody;
+  const id = req.body.id;
 
-  try{
+  try {
     NotesModel.findById(id, (err, updatedNote) => {
-      updatedNote.title = newNoteTitle
-      updatedNote.notesBody = newNoteNotesBody
-      updatedNote.save()
-      res.send("updated")
-    })
-  }catch (err) {
-    console.log(err)
+      updatedNote.title = newNoteTitle;
+      updatedNote.notesBody = newNoteNotesBody;
+      updatedNote.save();
+      res.send("updated");
+    });
+  } catch (err) {
+    console.log(err);
   }
-})
+});
 
 app.delete("/deleteNote/:id", async (req, res) => {
   const id = req.params.id;
