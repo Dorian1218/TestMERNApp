@@ -63,7 +63,7 @@ function CreateNavbar() {
                         style={{ transform: "translateX(-120%)" }}
                     >
                         <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-                            <NavDropdown.Item style={{ width: "auto" }}>Account</NavDropdown.Item>
+                            <NavDropdown.Item style={{ width: "auto" }} onClick={() => {navigate("/account")}}>Account</NavDropdown.Item>
                             <NavDropdown.Item>{user && (<Button variant='danger' style={{ width: "126px" }} onClick={showLogoutModal}>Logout</Button>)}</NavDropdown.Item>
                         </div>
                     </NavDropdown>}

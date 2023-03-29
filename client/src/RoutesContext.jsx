@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import { AuthContextProvider, UserAuth } from "./AuthContext";
 import Signin from "./pages/Signin";
 import Welcome from "./pages/Welcome";
+import Account from './pages/Account';
 
 function RoutesContext() {
     const navigate = useNavigate()
@@ -21,8 +22,9 @@ function RoutesContext() {
                 <Routes>
                     {!user && <Route exact path="/*" element={<Welcome />}></Route>}
                     {user && <Route path="/home" element={<Home />}></Route>}
-                    <Route path="/signup" element={<Signup />}></Route>
-                    <Route path="/signin" element={<Signin />}></Route>
+                    {!user && <Route path="/signup" element={<Signup />}></Route>}
+                    {!user && <Route path="/signin" element={<Signin />}></Route>}
+                    {user && <Route path="/account" element={<Account />}></Route>}
                 </Routes>
             </AuthContextProvider>
         </div>
