@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Alert from './Alert'
-import { Modal, Button, Form } from "react-bootstrap"
+import { Modal, Button } from "react-bootstrap"
 
 const DeleteModal = (props) => {
     const [setShow] = useState(false);

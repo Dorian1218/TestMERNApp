@@ -238,27 +238,8 @@ function Home() {
                                     </button>
                                     <button
                                         onClick={() => {
-                                            console.log(note._id)
-                                            Axios.delete(
-                                                `http://localhost:3001/deleteNote/${note._id}`
-                                            ).then(() => {
-                                                setListOfUsers(
-                                                    listOfUsers.filter((val) => {
-                                                        return val._id !== note._id;
-                                                    })
-                                                );
-                                                Axios.get("http://localhost:3001/getNotes").then(
-                                                    (response) => {
-                                                        setListOfUsers(response.data);
-                                                    }
-                                                );
-                                                Axios.get("http://localhost:3001/getNotes").then(
-                                                    (response) => {
-                                                        setListOfUsers(response.data);
-                                                    }
-                                                );
-                                            });
-                                            setDeleteModal(true);
+                                            setCurrentId(note._id)
+                                            setDeleteModal(true)
                                         }}
                                         className="delete-button"
                                     >
