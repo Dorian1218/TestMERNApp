@@ -37,11 +37,13 @@ app.put("/update", (req, res) => {
   const newNoteTitle = req.body.currentTitle;
   const newNoteNotesBody = req.body.currentNoteBody;
   const id = req.body.id;
+  const date = req.body.currentNewDate;
 
   try {
     NotesModel.findById(id, (err, updatedNote) => {
       updatedNote.title = newNoteTitle;
       updatedNote.notesBody = newNoteNotesBody;
+      updatedNote.lastUpdated = date
       updatedNote.save();
       res.send("updated");
     });

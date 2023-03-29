@@ -17,6 +17,10 @@ const NotesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lastUpdated: {
+    type: String,
+    required: false
+  }
 });
 
 const NotesModel = mongoose.model("notes", NotesSchema);

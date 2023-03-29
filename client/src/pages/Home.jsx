@@ -26,6 +26,8 @@ function Home() {
     var [currentNoteBody, setCurrentNoteBody] = useState("")
     const [showUpdate, setShowUpdate] = useState(false)
     var [currentId, setCurrentId] = useState("")
+    var [currentLastUpdated, setCurrentLastUpdated] = useState("")
+    var [currentDate, setCurrentDate] = useState("")
     var date = new Date().toLocaleString();
     const { user } = UserAuth()
     var useremail
@@ -90,11 +92,11 @@ function Home() {
 
     const updateNote = (id) => {
         try {
-            Axios.put("http://localhost:3001/update", { id: id, currentTitle: currentTitle, currentNoteBody: currentNoteBody })
+            Axios.put("http://localhost:3001/update", { id: id, currentTitle: currentTitle, currentNoteBody: currentNoteBody, currentNewDate: date })
         } catch (err) {
-            console.log(err)
+
         }
-        console.log(currentTitle)
+
         setShowUpdate(false)
     }
 
@@ -141,6 +143,7 @@ function Home() {
                 setName={(e) => setCurrentTitle(e.target.value)}
                 setAge={(e) => setCurrentNoteBody(e.target.value)}
                 updateNote={() => { updateNote(currentId) }}
+                lastUpdated={currentLastUpdated ? currentLastUpdated : currentDate}
             />
             <DeleteModal
                 show={deleteModal}
@@ -191,8 +194,8 @@ function Home() {
                                         setCurrentId(note._id)
                                         setCurrentTitle(note.title)
                                         setCurrentNoteBody(note.notesBody)
-                                        console.log(currentTitle)
-                                        console.log(currentId)
+                                        setCurrentLastUpdated(note.lastUpdated)
+                                        setCurrentDate(note.date)
                                         setShowUpdate(true)
                                     }}>
                                         <GrUpdate size={24} />
@@ -230,8 +233,6 @@ function Home() {
                                         setCurrentId(note._id)
                                         setCurrentTitle(note.title)
                                         setCurrentNoteBody(note.notesBody)
-                                        console.log(currentTitle)
-                                        console.log(currentId)
                                         setShowUpdate(true)
                                     }}>
                                         <GrUpdate size={24} />

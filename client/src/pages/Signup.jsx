@@ -35,7 +35,6 @@ function Signup() {
             navigate("/home");
         } catch (e) {
             setErrorMsg(e.message)
-            console.log(e.message)
             if (password !== confirmPassword) {
                 setErrorMsg("Passwords no not match")
             }

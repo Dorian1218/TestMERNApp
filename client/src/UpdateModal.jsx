@@ -21,6 +21,7 @@ const UpdateModal = (props) => {
                 <Modal.Body style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                     <Form.Control className="input" value={props.name} type="text" placeholder='Title' onChange={props.setName} />
                     <Form.Control className="input" value={props.age} type="text" placeholder='Note' onChange={props.setAge} />
+                    <p>Last Updated: {props.lastUpdated}</p>
                     <Alert showAlertMsg={props.showAlert} message={props.error} />
                 </Modal.Body>
                 <Modal.Footer>

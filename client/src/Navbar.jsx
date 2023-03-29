@@ -20,12 +20,12 @@ function CreateNavbar() {
             setTimeout(() => {
                 logout();
                 setShowLogout(false)
-                navigate("*")
+                navigate("/")
                 setIsDisabled(false)
                 setLogoutBtn("Logout")
             }, 1000)
         } catch (e) {
-            console.log(e.message);
+
         }
     }
     const closeModal = () => {

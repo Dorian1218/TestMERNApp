@@ -8,7 +8,7 @@
   flex-direction: column;
   font-family: 'Courier New', Courier, monospace;
   background-color: lightblue;
-  height: 110vh;
+  min-height: 100vh;
 }
 
 .App-link {
