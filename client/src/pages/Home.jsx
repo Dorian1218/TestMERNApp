@@ -10,6 +10,7 @@ import Signup from "../pages/Signup";
 import ModalPop from '../Modal';
 import Alert from '../Alert';
 import UpdateModal from '../UpdateModal';
+import DeleteModal from '../deleteModal';
 function Home() {
     const [listOfUsers, setListOfUsers] = useState([]);
     const [title, setTitle] = useState("");
@@ -19,7 +20,7 @@ function Home() {
     const [showAddAlert, setShowAddAlert] = useState(false);
     const [errorAddMsg, setErrorAddMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
-    const [setDeleteModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     const [searchInfo, setSearchInfo] = useState("");
     var [currentTitle, setCurrentTitle] = useState("")
     var [currentNoteBody, setCurrentNoteBody] = useState("")
@@ -31,7 +32,7 @@ function Home() {
     if (user) {
         useremail = user.email
     }
-    
+
     useEffect(() => {
         Axios.get("http://localhost:3001/getNotes").then((response) => {
             setListOfUsers(response.data);
@@ -88,8 +89,8 @@ function Home() {
     };
 
     const updateNote = (id) => {
-        try{
-            Axios.put("http://localhost:3001/update", {id: id, currentTitle: currentTitle, currentNoteBody: currentNoteBody})
+        try {
+            Axios.put("http://localhost:3001/update", { id: id, currentTitle: currentTitle, currentNoteBody: currentNoteBody })
         } catch (err) {
             console.log(err)
         }
@@ -132,14 +133,40 @@ function Home() {
                 showAlert={showAlert}
                 removeMsg={() => setShowAlert(false)}
             />
-            <UpdateModal 
+            <UpdateModal
                 show={showUpdate}
-                onClose={() => {setShowUpdate(false)}}
+                onClose={() => { setShowUpdate(false) }}
                 name={currentTitle}
                 age={currentNoteBody}
                 setName={(e) => setCurrentTitle(e.target.value)}
                 setAge={(e) => setCurrentNoteBody(e.target.value)}
-                updateNote={() => {updateNote(currentId)}}
+                updateNote={() => { updateNote(currentId) }}
+            />
+            <DeleteModal
+                show={deleteModal}
+                onClose={() => { setDeleteModal(false) }}
+                deletecard={() => {
+                    setDeleteModal(false);
+                    Axios.delete(
+                        `http://localhost:3001/deleteNote/${currentId}`
+                    ).then(() => {
+                        setListOfUsers(
+                            listOfUsers.filter((val) => {
+                                return val._id !== currentId;
+                            })
+                        );
+                        Axios.get("http://localhost:3001/getNotes").then(
+                            (response) => {
+                                setListOfUsers(response.data);
+                            }
+                        );
+                        Axios.get("http://localhost:3001/getNotes").then(
+                            (response) => {
+                                setListOfUsers(response.data);
+                            }
+                        );
+                    });
+                }}
             />
             {!user && <p><b>Please Sign in to start creating notes!</b></p>}
             {shownList.length === 0 && user && <p><b>Press the add icon to create your first note</b></p>}
@@ -165,33 +192,15 @@ function Home() {
                                         setCurrentTitle(note.title)
                                         setCurrentNoteBody(note.notesBody)
                                         console.log(currentTitle)
+                                        console.log(currentId)
                                         setShowUpdate(true)
                                     }}>
                                         <GrUpdate size={24} />
                                     </button>
                                     <button
                                         onClick={() => {
-                                            console.log(note._id)
-                                            Axios.delete(
-                                                `http://localhost:3001/deleteNote/${note._id}`
-                                            ).then(() => {
-                                                setListOfUsers(
-                                                    listOfUsers.filter((val) => {
-                                                        return val._id !== note._id;
-                                                    })
-                                                );
-                                                Axios.get("http://localhost:3001/getNotes").then(
-                                                    (response) => {
-                                                        setListOfUsers(response.data);
-                                                    }
-                                                );
-                                                Axios.get("http://localhost:3001/getNotes").then(
-                                                    (response) => {
-                                                        setListOfUsers(response.data);
-                                                    }
-                                                );
-                                            });
-                                            setDeleteModal(true);
+                                            setCurrentId(note._id)
+                                            setDeleteModal(true)
                                         }}
                                         className="delete-button"
                                     >
@@ -222,6 +231,7 @@ function Home() {
                                         setCurrentTitle(note.title)
                                         setCurrentNoteBody(note.notesBody)
                                         console.log(currentTitle)
+                                        console.log(currentId)
                                         setShowUpdate(true)
                                     }}>
                                         <GrUpdate size={24} />
