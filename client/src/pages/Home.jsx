@@ -11,6 +11,7 @@ import ModalPop from '../Modal';
 import Alert from '../Alert';
 import UpdateModal from '../UpdateModal';
 import DeleteModal from '../deleteModal';
+
 function Home() {
     const [listOfUsers, setListOfUsers] = useState([]);
     const [title, setTitle] = useState("");
